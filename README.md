@@ -6,7 +6,7 @@
 ><><><><><><><><><><><><>><<><><><><><><><><><>
 
 # ShieldImage Class
-correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
+* correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
 
 
 
