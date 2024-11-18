@@ -6,8 +6,7 @@
 ><><><><><><><><><><><><>><<><><><><><><><><><>
 
 # ShieldImage Class
-**Problem:** `java.lang.reflect.InvocationTargetException` error when transitioning to Level 2.  
-   **Solution:** Corrected shield image path and changed "shield.jpg" to "shield.png".* The image path was correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
+correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
 
 
 
