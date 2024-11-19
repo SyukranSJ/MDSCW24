@@ -3,21 +3,29 @@ package com.example.demo;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javafx.animation.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.*;
-import javafx.scene.input.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 
-public abstract class LevelParent extends Observable {
+import java.util.ArrayList;
+import java.util.List;
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+
+public abstract class LevelParent {
+    private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
-	private final double screenHeight;
-	private final double screenWidth;
-	private final double enemyMaximumYPosition;
+    private final double screenHeight;
+    private final double screenWidth;
+    private final double enemyMaximumYPosition;
 
 	private final Group root;
 	private final Timeline timeline;
@@ -33,7 +41,10 @@ public abstract class LevelParent extends Observable {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	private final StringProperty levelNameProperty = new SimpleStringProperty();
+
+	//public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(double screenHeight, double screenWidth, String backgroundImageName, int playerInitialHealth) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
@@ -51,6 +62,11 @@ public abstract class LevelParent extends Observable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
+		 // Add a listener to the levelNameProperty
+		 levelNameProperty.addListener((observable, oldValue, newValue) -> {
+            // Handle the change
+            System.out.println("Level name changed from " + oldValue + " to " + newValue);
+        });
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -69,14 +85,29 @@ public abstract class LevelParent extends Observable {
 	}
 
 	public void startGame() {
-		background.requestFocus();
-		timeline.play();
+		try {
+			timeline.play();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void goToNextLevel(String levelName) {
-		setChanged();
-		notifyObservers(levelName);
-	}
+		user.destroy();
+        levelNameProperty.set(levelName);
+    }
+
+	public String getLevelName() {
+        return levelNameProperty.get();
+    }
+
+    public void setLevelName(String levelName) {
+        levelNameProperty.set(levelName);
+    }
+
+    public StringProperty levelNameProperty() {
+        return levelNameProperty;
+    }
 
 	private void updateScene() {
 		spawnEnemyUnits();
@@ -94,10 +125,14 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void initializeTimeline() {
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
-		timeline.getKeyFrames().add(gameLoop);
-	}
+    try {
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
+        timeline.getKeyFrames().add(gameLoop);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
 	private void initializeBackground() {
 		background.setFocusTraversable(true);
@@ -185,11 +220,12 @@ public abstract class LevelParent extends Observable {
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
-				enemy.destroy();
+				//user.takeDamage(); // This line causes health to decrease.
+				enemy.destroy(); // This may remove the enemy.
 			}
 		}
 	}
+	
 
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());

@@ -10,7 +10,7 @@ public class Boss extends FighterPlane {
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = .04;
 	private static final double BOSS_SHIELD_PROBABILITY = .002;
-	private static final int IMAGE_HEIGHT = 300;
+	private static final int IMAGE_HEIGHT = 90;
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 100;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
@@ -48,8 +48,10 @@ public class Boss extends FighterPlane {
 	@Override
 	public void updateActor() {
 		updatePosition();
-		updateShield();
+		//updateShield(); // This will toggle the shield visibility
+		//updateHealthBar(); // This will update the health bar width based on health
 	}
+
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
@@ -77,6 +79,8 @@ public class Boss extends FighterPlane {
 		else if (shieldShouldBeActivated()) activateShield();	
 		if (shieldExhausted()) deactivateShield();
 	}
+
+	
 
 	private int getNextMove() {
 		int currentMove = movePattern.get(indexOfCurrentMove);
