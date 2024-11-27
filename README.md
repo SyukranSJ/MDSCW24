@@ -9,6 +9,7 @@
 * correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
 
 # Controller
+* use a StringProperty (levelNameProperty) to manage the level's name dynamically and added a listener to trigger goToLevel when the level name changes.
 
 # Main
 
