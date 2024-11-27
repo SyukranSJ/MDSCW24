@@ -30,8 +30,8 @@ public class LevelTwo extends LevelParent {
     protected void spawnEnemyUnits() {
         if (getCurrentNumberOfEnemies() == 0) {
             addEnemyUnit(boss);
-            //getRoot().getChildren().add(boss.getHealthBar()); // Add health bar to the scene
-            //getRoot().getChildren().add(boss.getShield()); // Add shield bar to the scene
+            getRoot().getChildren().add(boss.getHealthBar()); // Add health bar to the scene
+            getRoot().getChildren().add(boss.getShieldImage()); // Add shield bar to the scene
             
         }
     }

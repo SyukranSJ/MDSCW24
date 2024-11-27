@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.util.*;
+
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -141,15 +141,15 @@ public abstract class LevelParent {
 		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP) user.moveUp();
-				if (kc == KeyCode.DOWN) user.moveDown();
+				if (kc == KeyCode.W) user.moveUp();
+				if (kc == KeyCode.S) user.moveDown();
 				if (kc == KeyCode.SPACE) fireProjectile();
 			}
 		});
 		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+				if (kc == KeyCode.W || kc == KeyCode.S) user.stop();
 			}
 		});
 		root.getChildren().add(background);
