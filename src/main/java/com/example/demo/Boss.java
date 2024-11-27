@@ -12,8 +12,8 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75;
 	private static final double BOSS_FIRE_RATE = 0.001;
-	private static final double BOSS_SHIELD_PROBABILITY = .02;
-	private static final int IMAGE_HEIGHT = 90;
+	private static final double BOSS_SHIELD_PROBABILITY = .1;
+	private static final int IMAGE_HEIGHT = 130;
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 10;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
@@ -59,8 +59,8 @@ public class Boss extends FighterPlane {
 	}
 	
 	private void updateShieldPosition() {
-		shieldImage.setLayoutX(getLayoutX() + getTranslateX());
-		shieldImage.setLayoutY(getLayoutY() + getTranslateY() - 40);
+		shieldImage.setLayoutX(getLayoutX() + getTranslateX() - 95);
+		shieldImage.setLayoutY(getLayoutY() + getTranslateY() - 165);
 	}
 
 
