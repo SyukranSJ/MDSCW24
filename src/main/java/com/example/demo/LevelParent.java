@@ -12,12 +12,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 
 public abstract class LevelParent {
@@ -42,6 +48,9 @@ public abstract class LevelParent {
 	private LevelView levelView;
 
 	private final StringProperty levelNameProperty = new SimpleStringProperty();
+
+	private Text killCounterText;
+
 
 	//public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 	public LevelParent(double screenHeight, double screenWidth, String backgroundImageName, int playerInitialHealth) {
@@ -81,6 +90,12 @@ public abstract class LevelParent {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		killCounterText = new Text("Kills: " + user.getNumberOfKills());
+		killCounterText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		killCounterText.setFill(Color.BLACK);
+		killCounterText.setTranslateX(10);
+		killCounterText.setTranslateY(100);
+		root.getChildren().add(killCounterText);
 		return scene;
 	}
 
@@ -110,6 +125,7 @@ public abstract class LevelParent {
     }
 
 	private void updateScene() {
+		System.out.println("Updating scene");
 		spawnEnemyUnits();
 		updateActors();
 		generateEnemyFire();
@@ -120,9 +136,12 @@ public abstract class LevelParent {
 		handlePlaneCollisions();
 		removeAllDestroyedActors();
 		updateKillCount();
+		updateKillCounter();
 		updateLevelView();
 		checkIfGameOver();
 	}
+
+	
 
 	private void initializeTimeline() {
     try {
@@ -153,6 +172,18 @@ public abstract class LevelParent {
 			}
 		});
 		root.getChildren().add(background);
+
+		scene.setOnKeyPressed(e -> {
+    if (e.getCode() == KeyCode.P) {
+        if (timeline.getStatus() == Animation.Status.RUNNING) {
+            timeline.pause();
+            System.out.println("Game Paused");
+        } else {
+            timeline.play();
+            System.out.println("Game Resumed");
+        }
+    }
+});
 	}
 
 	private void fireProjectile() {
@@ -220,13 +251,12 @@ public abstract class LevelParent {
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
-				//user.takeDamage(); // This line causes health to decrease.
+				user.takeDamage(); // This line causes health to decrease.
 				enemy.destroy(); // This may remove the enemy.
 			}
 		}
 	}
 	
-
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
 	}
@@ -284,4 +314,8 @@ public abstract class LevelParent {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
+	private void updateKillCounter() {
+		killCounterText.setText("Kills: " + user.getNumberOfKills());
+	}
+	
 }

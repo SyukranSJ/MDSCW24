@@ -11,7 +11,7 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75;
-	private static final double BOSS_FIRE_RATE = 0.001;
+	private static final double BOSS_FIRE_RATE = 0.1;
 	private static final double BOSS_SHIELD_PROBABILITY = .1;
 	private static final int IMAGE_HEIGHT = 130;
 	private static final int VERTICAL_VELOCITY = 8;
@@ -23,13 +23,21 @@ public class Boss extends FighterPlane {
 	private static final int Y_POSITION_LOWER_BOUND = 525;
 	private static final int MAX_FRAMES_WITH_SHIELD = 100;
 	private final List<Integer> movePattern;
-	private boolean isShielded;
+	private ShieldState shieldState;
 	private int consecutiveMovesInSameDirection;
 	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
 	private final ShieldImage shieldImage;
     private Rectangle healthBar;
     private int currentHealth;
+
+	public enum ShieldState {
+		ACTIVE,   // Shield is fully functional
+		DAMAGED,  // Shield is partially functional
+		INACTIVE  // Shield is off
+	}
+	
+	
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
@@ -38,13 +46,11 @@ public class Boss extends FighterPlane {
 		consecutiveMovesInSameDirection = 0;
 		indexOfCurrentMove = 0;
 		framesWithShieldActivated = 0;
-		isShielded = false;
+		shieldState = ShieldState.INACTIVE;
 		currentHealth = HEALTH;
         createHealthBar();
 		initializeMovePattern();
 	}
-
-	
 
 	@Override
 	public void updatePosition() {
@@ -68,7 +74,7 @@ public class Boss extends FighterPlane {
 	public void updateActor() {
 		updatePosition();
 		updateShield(); // This will toggle the shield visibility
-		//updateHealthBar(); // This will update the health bar width based on health
+		
 	}
 
 
@@ -79,13 +85,16 @@ public class Boss extends FighterPlane {
 	
 	@Override
 	public void takeDamage() {
-        if (!isShielded) {
-            super.takeDamage();
-            currentHealth -= 1;  // damage reduce health by 1
-            if (currentHealth < 0) {
-                currentHealth = 0;
-            }
-            updateHealthBar();  // Update the health bar when damage is taken
+        if (shieldState == ShieldState.ACTIVE) {
+            shieldState = ShieldState.DAMAGED;  // Transition to DAMAGED state
+            shieldImage.weakenShield();           // Visual indicator for damage
+        } else if (shieldState == ShieldState.DAMAGED) {
+            shieldState = ShieldState.INACTIVE; // Fully deactivate the shield
+            shieldImage.hideShield();
+        } else {
+            super.takeDamage();                // Directly reduce health if shield is INACTIVE
+            currentHealth -= 1;
+            updateHealthBar();
         }
     }
 
@@ -122,14 +131,13 @@ public class Boss extends FighterPlane {
 	}
 
 	private void updateShield() {
-		if (isShielded) {
+		if (shieldState == ShieldState.ACTIVE) {
 			framesWithShieldActivated++;
 			shieldImage.showShield();
 			updateShieldPosition();
 		}
 		else if (shieldShouldBeActivated()) {
 			activateShield();	
-			updateShieldPosition();
 			
 		}
 		if (shieldExhausted()) {
@@ -170,15 +178,20 @@ public class Boss extends FighterPlane {
 	}
 
 	private void activateShield() {
-		isShielded = true;
-		//shieldImage.showShield();
+		shieldState = ShieldState.ACTIVE;
+		shieldImage.showShield();
+		updateShieldPosition();
 	}
-
+	
 	private void deactivateShield() {
-		isShielded = false;
+		shieldState = ShieldState.INACTIVE;
 		shieldImage.hideShield();
 		framesWithShieldActivated = 0;
 	}
+	
+	public void dimShield() {
+		shieldImage.setOpacity(0.5); // Dimming the shield by setting opacity
+	}	
 
 	public ShieldImage getShieldImage() {
 		return shieldImage;

@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -11,44 +12,59 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import com.example.demo.LevelParent;
 
- public class Controller {
+public class Controller {
 
-    private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+    private static final Map<String, Class<? extends LevelParent>> LEVEL_CLASSES = new HashMap<>();
+
+    static {
+        // Register level classes
+        LEVEL_CLASSES.put("com.example.demo.LevelOne", com.example.demo.LevelOne.class);
+        LEVEL_CLASSES.put("com.example.demo.LevelTwo", com.example.demo.LevelTwo.class); // Add more as needed
+    }
+
     private final Stage stage;
     private final StringProperty levelNameProperty = new SimpleStringProperty();
 
     public Controller(Stage stage) {
         this.stage = stage;
-
-        // Add a listener to the levelNameProperty
-        levelNameProperty.addListener((observable, oldValue, newValue) -> {
-            try {
-                goToLevel(newValue);
-            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setContentText(e.getClass().toString());
-                alert.show();
-                e.printStackTrace();
-            }
-        });
+        // Listener for level changes
+        levelNameProperty.addListener((observable, oldValue, newValue) -> handleLevelChange(newValue));
     }
 
-    public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+    public void launchGame() {
         stage.show();
-        goToLevel(LEVEL_ONE_CLASS_NAME);
+        handleLevelChange("com.example.demo.LevelOne"); // Start at LevelOne
     }
 
-    private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Class<?> myClass = Class.forName(className);
-        Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-        LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-        myLevel.levelNameProperty().bindBidirectional(levelNameProperty);
-        Scene scene = myLevel.initializeScene();
+    private void handleLevelChange(String levelName) {
+        try {
+            goToLevel(levelName);
+        } catch (Exception e) {
+            showErrorDialog("Failed to load level: " + levelName, e);
+        }
+    }
+
+    private void goToLevel(String levelName) throws Exception {
+        Class<? extends LevelParent> levelClass = LEVEL_CLASSES.get(levelName);
+        if (levelClass == null) {
+            throw new IllegalArgumentException("Level not found: " + levelName);
+        }
+
+        // Instantiate level
+        Constructor<? extends LevelParent> constructor = levelClass.getConstructor(double.class, double.class);
+        LevelParent level = constructor.newInstance(stage.getHeight(), stage.getWidth());
+
+        // Bind properties and initialize scene
+        level.levelNameProperty().bindBidirectional(levelNameProperty);
+        Scene scene = level.initializeScene();
         stage.setScene(scene);
-        myLevel.startGame();
+        level.startGame();
+    }
+
+    private void showErrorDialog(String message, Exception e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setContentText(message);
+        alert.show();
+        e.printStackTrace();
     }
 }

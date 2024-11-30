@@ -2,36 +2,64 @@ package com.example.demo;
 
 public class EnemyPlane extends FighterPlane {
 
-	private static final String IMAGE_NAME = "enemyplane.png";
-	private static final int IMAGE_HEIGHT = 70;
-	private static final int HORIZONTAL_VELOCITY = -6;
-	private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
-	private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
-	private static final int INITIAL_HEALTH = 1;
-	private static final double FIRE_RATE = .01;
+    private static final String IMAGE_NAME = "enemyplane.png";
+    private static final int IMAGE_HEIGHT = 70;
+    private static final double DEFAULT_FIRE_RATE = 0.01;
+    private static final int DEFAULT_HEALTH = 1;
+    private final double fireRate;
+    private final int horizontalVelocity;
+    private final double projectileXOffset;
+    private final double projectileYOffset;
 
-	public EnemyPlane(double initialXPos, double initialYPos) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
-	}
+    /**
+     * Constructor for a customizable enemy plane.
+     */
+    public EnemyPlane(double initialXPos, double initialYPos, int horizontalVelocity, double fireRate, int health) {
+        super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, health);
+        this.horizontalVelocity = horizontalVelocity;
+        this.fireRate = fireRate;
+        this.projectileXOffset = -100.0;
+        this.projectileYOffset = 40.0;
+    }
 
-	@Override
-	public void updatePosition() {
-		moveHorizontally(HORIZONTAL_VELOCITY);
-	}
+    /**
+     * Default constructor for enemy planes.
+     */
+    public EnemyPlane(double initialXPos, double initialYPos) {
+        this(initialXPos, initialYPos, -6, DEFAULT_FIRE_RATE, DEFAULT_HEALTH);
+    }
 
-	@Override
-	public ActiveActorDestructible fireProjectile() {
-		if (Math.random() < FIRE_RATE) {
-			double projectileXPosition = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
-			double projectileYPostion = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-			return new EnemyProjectile(projectileXPosition, projectileYPostion);
-		}
-		return null;
-	}
+    @Override
+    public void updatePosition() {
+        moveHorizontally(horizontalVelocity);
+    }
 
-	@Override
-	public void updateActor() {
-		updatePosition();
-	}
+    @Override
+    public ActiveActorDestructible fireProjectile() {
+        if (canFireProjectile() && isWithinScreenBounds()) {
+            double projectileXPosition = getProjectileXPosition(projectileXOffset);
+            double projectileYPosition = getProjectileYPosition(projectileYOffset);
+            return new EnemyProjectile(projectileXPosition, projectileYPosition);
+        }
+        return null;
+    }
 
+    @Override
+    public void updateActor() {
+        updatePosition();
+    }
+
+    /**
+     * Determines if the enemy plane can fire a projectile in this frame.
+     */
+    private boolean canFireProjectile() {
+        return Math.random() < fireRate;
+    }
+
+    /**
+     * Checks if the plane is within the visible bounds of the screen.
+     */
+    private boolean isWithinScreenBounds() {
+        return getLayoutX() + getTranslateX() > 0;
+    }
 }
