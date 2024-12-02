@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class LevelParent {
     private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -40,6 +39,8 @@ public abstract class LevelParent {
 
     private final StringProperty levelNameProperty = new SimpleStringProperty();
     private Text killCounterText;
+
+    private final CollisionManager collisionManager; // Added collision manager
 
     public LevelParent(double screenHeight, double screenWidth, String backgroundImageName, int playerInitialHealth) {
         this.root = new Group();
@@ -66,6 +67,9 @@ public abstract class LevelParent {
         levelNameProperty.addListener((observable, oldValue, newValue) ->
             System.out.println("Level name changed from " + oldValue + " to " + newValue)
         );
+
+        // Initialize CollisionManager
+        this.collisionManager = new CollisionManager(friendlyUnits, enemyUnits, userProjectiles, enemyProjectiles, user, screenWidth);
 
         friendlyUnits.add(user);
     }
@@ -127,10 +131,7 @@ public abstract class LevelParent {
         updateActors();
         generateEnemyFire();
         updateNumberOfEnemies();
-        handleEnemyPenetration();
-        handleUserProjectileCollisions();
-        handleEnemyProjectileCollisions();
-        handlePlaneCollisions();
+        collisionManager.handleCollisions(); // added CollisionManager for collisions
         removeAllDestroyedActors();
         updateKillCount();
         updateKillCounter();
@@ -142,8 +143,8 @@ public abstract class LevelParent {
         background.setFocusTraversable(true);
         background.setFitHeight(screenHeight);
         background.setFitWidth(screenWidth);
-        background.setOnKeyPressed(e -> handleKeyPressed(e));
-        background.setOnKeyReleased(e -> handleKeyReleased(e));
+        background.setOnKeyPressed(this::handleKeyPressed);
+        background.setOnKeyReleased(this::handleKeyReleased);
 
         root.getChildren().add(background);
 
@@ -206,45 +207,9 @@ public abstract class LevelParent {
     private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
         List<ActiveActorDestructible> destroyedActors = actors.stream()
                 .filter(ActiveActorDestructible::isDestroyed)
-                .collect(Collectors.toList());
+                .toList();
         root.getChildren().removeAll(destroyedActors);
         actors.removeAll(destroyedActors);
-    }
-
-    private void handlePlaneCollisions() {
-        handleCollisions(friendlyUnits, enemyUnits);
-    }
-
-    private void handleUserProjectileCollisions() {
-        handleCollisions(userProjectiles, enemyUnits);
-    }
-
-    private void handleEnemyProjectileCollisions() {
-        handleCollisions(enemyProjectiles, friendlyUnits);
-    }
-
-    private void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
-        for (ActiveActorDestructible actor : actors2) {
-            for (ActiveActorDestructible otherActor : actors1) {
-                if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-                    actor.takeDamage();
-                    otherActor.takeDamage();
-                }
-            }
-        }
-    }
-
-    private void handleEnemyPenetration() {
-        for (ActiveActorDestructible enemy : enemyUnits) {
-            if (enemyHasPenetratedDefenses(enemy)) {
-                user.takeDamage();
-                enemy.destroy();
-            }
-        }
-    }
-
-    private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-        return Math.abs(enemy.getTranslateX()) > screenWidth;
     }
 
     private void updateKillCount() {
