@@ -6,6 +6,7 @@ import javafx.util.Duration;
 
 public class GameLoop {
     private final Timeline timeline;
+    //currently unused but may be utilize in the upcoming features.
     private final Runnable updateTask;
 
     private static final int DEFAULT_FRAME_DELAY = 50; // Milliseconds
