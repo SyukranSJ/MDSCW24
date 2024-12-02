@@ -1,7 +1,7 @@
   **GITHUB LINK**
   https://github.com/SyukranSJ/MDSCW24
 
-  # CHANGES
+  ### CHANGES ###
   
 ><><><><><><><><><><><><>><<><><><><><><><><><>
 
@@ -102,6 +102,11 @@ shieldState property.
 * change movement key
 * Added Pause/Resume Functionality
 * Added Kill Counter
+* Modify LevelParent to Use CollisionManager and replace the in-class collision logic with calls to CollisionManager.
+* Game loop lifecycle has been moved to GameLoop.
+* Collision detection for penetration been moved to CollisionManager.
+* added updateScene() tasks that delegates task to managers.
+  
 
 # Level Two
 * added healthbar that changed color depending on how many HP left.
@@ -127,12 +132,22 @@ shieldState property.
 # Win Image
 * Added overload constructor 
 
+  
+### NEW CLASSES ###
+
+# Game Loop
+* Manage the timeline (Timeline) and invoke a provided Runnable to update the game state at regular intervals.
+* Provide controls to start, stop, and pause the game.
+
+# Collision Manager
+* Handle all collision detection and responses.
+* Handle plane collisions.
+* Handle projectile collisions (user vs. enemies and enemies vs. user).
+* Detect and manage any out-of-bound or penetrated enemies (e.g., enemies reaching the player's side).
+
+# TO DO
 
 # Problems
 * The collision hitboxes do not align with the displayed graphics. (solved by Updated graphics and refined hitboxes to correspond with the actor's visual boundaries.)
 * Encountered a java.lang.reflect.InvocationTargetException error when moving to Level 2. (solved by Fixed the shield image path by replacing "shield.jpg" with "shield.png".)
 * Shield not visible. (solved by declaring in boss and level two.)
-
-  
-
-  
