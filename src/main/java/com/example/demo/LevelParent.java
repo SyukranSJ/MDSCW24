@@ -6,8 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+//import javafx.scene.input.KeyCode;
+//import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -42,6 +42,8 @@ public abstract class LevelParent {
 
     private final CollisionManager collisionManager; // Added collision manager
 
+    private InputHandler inputHandler; // Reference to InputHandler
+
     public LevelParent(double screenHeight, double screenWidth, String backgroundImageName, int playerInitialHealth) {
         this.root = new Group();
         this.scene = new Scene(root, screenWidth, screenHeight);
@@ -63,15 +65,13 @@ public abstract class LevelParent {
         // Initialize GameLoop with the updateScene method
         this.gameLoop = new GameLoop(this::updateScene);
 
-        // Add a listener to the levelNameProperty
-        levelNameProperty.addListener((observable, oldValue, newValue) ->
-            System.out.println("Level name changed from " + oldValue + " to " + newValue)
-        );
-
         // Initialize CollisionManager
         this.collisionManager = new CollisionManager(friendlyUnits, enemyUnits, userProjectiles, enemyProjectiles, user, screenWidth);
 
         friendlyUnits.add(user);
+
+        // Initialize InputHandler
+        inputHandler = new InputHandler(user, this); // Pass LevelParent to InputHandler
     }
 
     protected abstract void initializeFriendlyUnits();
@@ -143,40 +143,15 @@ public abstract class LevelParent {
         background.setFocusTraversable(true);
         background.setFitHeight(screenHeight);
         background.setFitWidth(screenWidth);
-        background.setOnKeyPressed(this::handleKeyPressed);
-        background.setOnKeyReleased(this::handleKeyReleased);
+        background.setOnKeyPressed(inputHandler::handleKeyPressed); // Use InputHandler for keyPressed
+        background.setOnKeyReleased(inputHandler::handleKeyReleased); // Use InputHandler for keyReleased
 
         root.getChildren().add(background);
-
-        scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.P) {
-                if (gameLoop.isRunning()) {
-                    gameLoop.pause();
-                    System.out.println("Game Paused");
-                } else {
-                    gameLoop.start();
-                    System.out.println("Game Resumed");
-                }
-            }
-        });
     }
 
-    private void handleKeyPressed(KeyEvent e) {
-        KeyCode kc = e.getCode();
-        if (kc == KeyCode.W) user.moveUp();
-        if (kc == KeyCode.S) user.moveDown();
-        if (kc == KeyCode.SPACE) fireProjectile();
-    }
-
-    private void handleKeyReleased(KeyEvent e) {
-        KeyCode kc = e.getCode();
-        if (kc == KeyCode.W || kc == KeyCode.S) user.stop();
-    }
-
-    private void fireProjectile() {
-        ActiveActorDestructible projectile = user.fireProjectile();
-        root.getChildren().add(projectile);
-        userProjectiles.add(projectile);
+    public void addProjectileToScene(ActiveActorDestructible projectile) {
+        root.getChildren().add(projectile); // Add the projectile to the scene
+        userProjectiles.add(projectile); // Add to the list of user projectiles
     }
 
     private void generateEnemyFire() {

@@ -106,6 +106,8 @@ shieldState property.
 * Game loop lifecycle has been moved to GameLoop.
 * Collision detection for penetration been moved to CollisionManager.
 * added updateScene() tasks that delegates task to managers.
+* Moved logic for responding to key presses (W, S, SPACE, and now P) has been moved to the InputHandler class.
+
   
 
 # Level Two
@@ -144,6 +146,9 @@ shieldState property.
 * Handle plane collisions.
 * Handle projectile collisions (user vs. enemies and enemies vs. user).
 * Detect and manage any out-of-bound or penetrated enemies (e.g., enemies reaching the player's side).
+
+# Input Handler
+* Handling key input directly.
 
 # TO DO
 
