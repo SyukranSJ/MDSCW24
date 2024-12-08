@@ -4,13 +4,14 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.demo.levels.LevelParent;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
 
 public class Controller {
 
@@ -18,9 +19,9 @@ public class Controller {
 
     static {
         // Register level classes
-        LEVEL_CLASSES.put("com.example.demo.LevelOne", com.example.demo.LevelOne.class);
-        LEVEL_CLASSES.put("com.example.demo.LevelSemi", com.example.demo.LevelSemi.class); // Add more as needed
-        LEVEL_CLASSES.put("com.example.demo.LevelTwo", com.example.demo.LevelTwo.class); // Add more as needed
+        LEVEL_CLASSES.put("com.example.demo.LevelOne", com.example.demo.levels.LevelOne.class);
+        LEVEL_CLASSES.put("com.example.demo.LevelSemi", com.example.demo.levels.LevelSemi.class); 
+        LEVEL_CLASSES.put("com.example.demo.LevelTwo", com.example.demo.levels.LevelTwo.class); // Corrected LevelTwo
     }
 
     private final Stage stage;
