@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.manager;
 
 import java.util.List;
+
+import com.example.demo.characters.ActiveActorDestructible;
+import com.example.demo.characters.UserPlane;
 
 public class CollisionManager {
     private final List<ActiveActorDestructible> friendlyUnits;

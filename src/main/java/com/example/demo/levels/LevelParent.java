@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.levels;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,6 +16,13 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.demo.characters.ActiveActorDestructible;
+import com.example.demo.characters.FighterPlane;
+import com.example.demo.characters.UserPlane;
+import com.example.demo.manager.CollisionManager;
+import com.example.demo.manager.GameLoop;
+import com.example.demo.manager.InputHandler;
 
 public abstract class LevelParent {
     private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;

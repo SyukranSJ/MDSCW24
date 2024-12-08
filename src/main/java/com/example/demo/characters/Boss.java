@@ -1,6 +1,8 @@
-package com.example.demo;
+package com.example.demo.characters;
 
 import java.util.*;
+
+import com.example.demo.UI.ShieldImage;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.characters;
 
 /**
  * An abstract class representing a destructible active actor.

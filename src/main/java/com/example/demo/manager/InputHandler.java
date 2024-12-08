@@ -1,4 +1,8 @@
-package com.example.demo;
+package com.example.demo.manager;
+
+import com.example.demo.characters.ActiveActorDestructible;
+import com.example.demo.characters.UserPlane;
+import com.example.demo.levels.LevelParent;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

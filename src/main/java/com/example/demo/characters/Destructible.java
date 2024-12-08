@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.characters;
 /**
  * Interface representing an object that can be damaged and destroyed.
  */

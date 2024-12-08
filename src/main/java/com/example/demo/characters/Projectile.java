@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.characters;
 
 /**
  * Represents a generic projectile in the game. 

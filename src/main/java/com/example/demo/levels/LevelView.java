@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.levels;
 
 import javafx.scene.Group;
 

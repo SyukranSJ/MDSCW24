@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.levels;
+
+import com.example.demo.characters.ActiveActorDestructible;
+import com.example.demo.characters.EnemyPlane;
 
 import javafx.scene.Scene;
 
