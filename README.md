@@ -47,6 +47,7 @@ Included full stack trace logging for debugging purposes.
 * added color that react based on remaining health
 * added shield movement 
 * move shield declaration from levelviewtwo to boss level.
+* added a new features which is dimShield().
 * The takeDamage() method was updated to use the weakenShield() method of the ShieldImage class instead of directly calling dimShield(). This change encapsulates the logic for dimming the shield inside the ShieldImage class, making the Boss class more readable and easier to maintain.
 
 **Deleted:
@@ -60,7 +61,7 @@ ShieldState enum.
 shieldState property.
 
 # Boss Projectile
--none
+- change image and size.
 
 # Destructible
 * JavaDoc comments for better documentation.
@@ -69,6 +70,7 @@ shieldState property.
 * Added a visibility check (isWithinScreenBounds()) to ensure the plane only fires projectiles when it is on-screen.
 * Added a default constructor for simpler instantiation.
 * Removed unused constants or variables to enhance clarity and reduce potential confusion.
+* adjust projectile x and y position.
 
 # Enemy Projectile
 * updatePosition() method was added or adjusted to ensure the projectile moves left (negative X direction) with a constant velocity (HORIZONTAL_VELOCITY).
@@ -76,11 +78,13 @@ shieldState property.
 * Removed unused or redundant variables, such as constants that were defined but not referenced.
 
 
+
 # FighterPlane
 * change HealthAtZero from private to protected to allow future extensibility or subclass-specific logic.
 
 # GameOver Image
 * put in new image for GameOver
+* adjusting the size of the image.
 
 # Heart Display
 *Storing the Image: The heart image is loaded once in the loadHeartImage() method, so it's reused in the initializeHearts() method, avoiding multiple calls to getClass().getResource().
@@ -107,8 +111,8 @@ shieldState property.
 * Collision detection for penetration been moved to CollisionManager.
 * added updateScene() tasks that delegates task to managers.
 * Moved logic for responding to key presses (W, S, SPACE, and now P) has been moved to the InputHandler class.
+* add new font for kill counter
 
-  
 
 # Level Two
 * added healthbar that changed color depending on how many HP left.
@@ -117,6 +121,7 @@ shieldState property.
 
 
 # Level View
+* adjusted loss, win and hearts display screen x and y positions to center those images.
 
 # Level View Two
 * remove a lot of redundant stuff
@@ -127,9 +132,10 @@ shieldState property.
 
 # User Plane
 * adjust upper_bound
+* adjust projectile x and y position.
 
 # User Projectile
-- none
+- change images and image size
 
 # Win Image
 * Added overload constructor 
@@ -149,6 +155,10 @@ shieldState property.
 
 # Input Handler
 * Handling key input directly.
+
+# Level Semi
+* new level thats similar with levelOne but with waves this time which will spawn more enemy after each waves before can go to boss battle.
+* added total wave on the screen.
 
 # TO DO
 

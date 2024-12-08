@@ -3,8 +3,8 @@ package com.example.demo.characters;
 public class EnemyProjectile extends Projectile {
 
     // Move these constants to a central configuration class if possible
-    private static final String IMAGE_NAME = "enemyFire.png";
-    private static final int IMAGE_HEIGHT = 10;
+    private static final String IMAGE_NAME = "enemyfire1.png";
+    private static final int IMAGE_HEIGHT = 80;
     private int horizontalVelocity = -10 ;
 
     public EnemyProjectile(double initialXPos, double initialYPos) {

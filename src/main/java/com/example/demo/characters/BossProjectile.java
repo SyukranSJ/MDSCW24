@@ -2,7 +2,7 @@ package com.example.demo.characters;
 
 public class BossProjectile extends Projectile {
     
-    private static final String IMAGE_NAME = "fireball.png";
+    private static final String IMAGE_NAME = "fireball1.png";
     private static final int IMAGE_HEIGHT = 55;
     private static final int HORIZONTAL_VELOCITY = -15;
     private static final int INITIAL_X_POSITION = 950;

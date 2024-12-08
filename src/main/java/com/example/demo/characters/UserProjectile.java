@@ -2,7 +2,7 @@ package com.example.demo.characters;
 
 public class UserProjectile extends Projectile {
 
-	private static final String IMAGE_NAME = "userfire.png";
+	private static final String IMAGE_NAME = "userfire1.png";
 	private static final int IMAGE_HEIGHT = 10;
 	private static final int HORIZONTAL_VELOCITY = 15;
 

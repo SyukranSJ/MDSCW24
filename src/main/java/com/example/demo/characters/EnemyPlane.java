@@ -19,7 +19,7 @@ public class EnemyPlane extends FighterPlane {
         this.horizontalVelocity = horizontalVelocity;
         this.fireRate = fireRate;
         this.projectileXOffset = -100.0;
-        this.projectileYOffset = 40.0;
+        this.projectileYOffset = -5;
     }
 
     /**
