@@ -1,4 +1,3 @@
-
 module com.example.demo {
 
     requires javafx.controls;
@@ -8,7 +7,6 @@ module com.example.demo {
     requires transitive javafx.base;
 
     requires transitive javafx.graphics;
-
 
     opens com.example.demo to javafx.fxml;
 

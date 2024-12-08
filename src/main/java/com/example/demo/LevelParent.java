@@ -6,12 +6,13 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-//import javafx.scene.input.KeyCode;
-//import javafx.scene.input.KeyEvent;
+
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public abstract class LevelParent {
 
     private final StringProperty levelNameProperty = new SimpleStringProperty();
     private Text killCounterText;
+
 
     private final CollisionManager collisionManager; // Added collision manager
 
@@ -72,6 +74,8 @@ public abstract class LevelParent {
 
         // Initialize InputHandler
         inputHandler = new InputHandler(user, this); // Pass LevelParent to InputHandler
+
+		loadCustomFont();
     }
 
     protected abstract void initializeFriendlyUnits();
@@ -88,13 +92,22 @@ public abstract class LevelParent {
         levelView.showHeartDisplay();
 
         killCounterText = new Text("Kills: " + user.getNumberOfKills());
-        killCounterText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        killCounterText.setFill(Color.BLACK);
+        killCounterText.setFont(Font.font("Orbitron", FontWeight.BOLD, 15));
+        killCounterText.setFill(Color.DARKRED);
         killCounterText.setTranslateX(10);
         killCounterText.setTranslateY(100);
         root.getChildren().add(killCounterText);
 
         return scene;
+    }
+
+	private void loadCustomFont() {
+        try {
+            Font.loadFont(getClass().getResourceAsStream("/com/example/demo/font/Orbitron.ttf"), 15);
+            System.out.println("Custom font loaded successfully.");
+        } catch (Exception e) {
+            System.out.println("Failed to load custom font: " + e.getMessage());
+        }
     }
 
     public void startGame() {

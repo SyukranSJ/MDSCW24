@@ -19,6 +19,7 @@ public class Controller {
     static {
         // Register level classes
         LEVEL_CLASSES.put("com.example.demo.LevelOne", com.example.demo.LevelOne.class);
+        LEVEL_CLASSES.put("com.example.demo.LevelSemi", com.example.demo.LevelSemi.class); // Add more as needed
         LEVEL_CLASSES.put("com.example.demo.LevelTwo", com.example.demo.LevelTwo.class); // Add more as needed
     }
 

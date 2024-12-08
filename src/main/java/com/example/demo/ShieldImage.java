@@ -60,7 +60,7 @@ public class ShieldImage extends ImageView {
     private void applyWeakenEffect() {
         this.setOpacity(0.5);
     }
-    
+
     /**
      * Shows the shield, resetting its opacity to full visibility.
      */
