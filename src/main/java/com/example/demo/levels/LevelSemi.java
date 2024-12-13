@@ -2,13 +2,15 @@ package com.example.demo.levels;
 
 import com.example.demo.characters.ActiveActorDestructible;
 import com.example.demo.characters.EnemyPlane;
-
 import javafx.scene.Scene;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * The LevelSemi class represents the semi-final level of the game.
+ * It extends the LevelParent class and provides specific configurations and behaviors for this level.
+ */
 public class LevelSemi extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
     private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
@@ -24,6 +26,12 @@ public class LevelSemi extends LevelParent {
 
     private Text waveCounterText; // Text for wave counter
 
+    /**
+     * Constructs a new LevelSemi instance with the specified screen height and width.
+     *
+     * @param screenHeight the height of the screen
+     * @param screenWidth the width of the screen
+     */
     public LevelSemi(double screenHeight, double screenWidth) {
         super(screenHeight, screenWidth, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.currentWave = 1;
@@ -32,6 +40,11 @@ public class LevelSemi extends LevelParent {
         this.spawnProbability = BASE_SPAWN_PROBABILITY;
     }
 
+    /**
+     * Initializes the scene by setting up the background, friendly units, and UI elements.
+     *
+     * @return the initialized Scene object
+     */
     @Override
     public Scene initializeScene() {
         Scene scene = super.initializeScene();
@@ -39,19 +52,29 @@ public class LevelSemi extends LevelParent {
         return scene;
     }
 
+    /**
+     * Initializes the wave counter text and adds it to the scene.
+     */
     private void initializeWaveCounter() {
         waveCounterText = new Text("Wave: " + currentWave + " / " + TOTAL_WAVES);
         waveCounterText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         waveCounterText.setFill(javafx.scene.paint.Color.YELLOW);
-        waveCounterText.setTranslateX(600); // Place below the kill counter
-        waveCounterText.setTranslateY(40); // Adjusted position
+        waveCounterText.setTranslateX(600);
+        waveCounterText.setTranslateY(40); 
         getRoot().getChildren().add(waveCounterText);
     }
 
+    /**
+     * Updates the wave counter text to display the current wave.
+     */
     private void updateWaveCounter() {
         waveCounterText.setText("Wave: " + currentWave + " / " + TOTAL_WAVES);
     }
 
+    /**
+     * Checks if the game is over by evaluating the player's health and wave progress.
+     * If the player is destroyed, the game is lost. If all waves are cleared, the next level is loaded.
+     */
     @Override
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
@@ -61,11 +84,18 @@ public class LevelSemi extends LevelParent {
         }
     }
 
+    /**
+     * Initializes the friendly units for this level by adding the player's character to the scene.
+     */
     @Override
     protected void initializeFriendlyUnits() {
         getRoot().getChildren().add(getUser());
     }
 
+    /**
+     * Spawns enemy units for this level based on the spawn probability and the total number of enemies.
+     * New enemies are added to the scene until the total number of enemies is reached.
+     */
     @Override
     protected void spawnEnemyUnits() {
         if (!waveInProgress) return;
@@ -89,6 +119,10 @@ public class LevelSemi extends LevelParent {
         }
     }
 
+    /**
+     * Starts the next wave by resetting the wave progress and updating the wave counter.
+     * If all waves are cleared, the game over condition is checked.
+     */
     protected void startNextWave() {
         if (currentWave <= TOTAL_WAVES) {
             waveInProgress = true;
@@ -100,6 +134,11 @@ public class LevelSemi extends LevelParent {
         }
     }
 
+    /**
+     * Instantiates the LevelView for this level, which manages the UI elements specific to this level.
+     *
+     * @return a new LevelView instance for this level
+     */
     @Override
     protected LevelView instantiateLevelView() {
         return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);

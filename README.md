@@ -5,6 +5,9 @@
   
 ><><><><><><><><><><><><>><<><><><><><><><><><>
 
+## ALL CLASSES ###
+* Add comments for Javadocs
+
 # ShieldImage Class
 * Correctly updated from "shield.jpg" to "shield.png" to reference the shield image, using the IMAGE_NAME variable with the getResource method.
 * A loadShieldImage() method is introduced to ensure that if the image is not found, an exception is thrown, helping with debugging in case of errors.
@@ -166,6 +169,7 @@ shieldState property.
 * Exit Button
 * adjust image resolution and transition.
 * add background music function call.
+* adjusting button position and transition from one page to another
 
 # Background Music
 * handle background music.

@@ -13,11 +13,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
+/**
+ * The MainMenu class represents the main menu of the game.
+ * It initializes the main menu scene with background music and buttons to start the game, select levels, view instructions,
+ * and exit the game. The MainMenu interacts with the Controller to handle game transitions and manages background
+ * images and UI elements like buttons and text.
+ */
 public class MainMenu extends Application {
 
     private Controller controller;
     private BackgroundMusicPlayer bgMusic;
 
+    /**
+     * The main entry point for all JavaFX applications.
+     * The start method is called after the init method has returned, and after the system is ready for the application to begin running.
+     *
+     * @param primaryStage the primary stage for this application, onto which the application scene can be set.
+     */
     @Override
     public void start(Stage primaryStage) {
         controller = new Controller(primaryStage);
@@ -49,8 +61,8 @@ public class MainMenu extends Application {
         });
         howToPlayButton.setOnAction(e -> showHowToPlayPage(primaryStage)); 
 
-        VBox menuLayout = new VBox(20, startGameButton, levelSelectButton,howToPlayButton, exitButton);
-        menuLayout.setStyle("-fx-alignment: center; -fx-padding: 20;");
+        VBox menuLayout = new VBox(28, startGameButton, levelSelectButton,howToPlayButton, exitButton);
+        menuLayout.setStyle("-fx-alignment: center; -fx-padding: 350 0 0 0;");
 
         // Use StackPane to layer the background and buttons
         StackPane root = new StackPane();
@@ -71,10 +83,17 @@ public class MainMenu extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Starts the game by launching the first level.
+     */
     private void startGame() {
         controller.launchGame(); 
     }
 
+    /**
+     * Displays the level selection menu.
+     * Allows the user to choose between different levels.
+     */
     private void showLevelSelectMenu() {
         Image backgroundImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/MainMenuImage3.png"));
         ImageView backgroundView = new ImageView(backgroundImage);
@@ -92,8 +111,8 @@ public class MainMenu extends Application {
         levelTwoButton.setOnAction(e -> goToLevel("com.example.demo.LevelTwo"));
         backButton.setOnAction(e -> start(controller.getStage()));
 
-        VBox levelSelectLayout = new VBox(10, levelOneButton, levelSemiButton, levelTwoButton, backButton);
-        levelSelectLayout.setStyle("-fx-alignment: center; -fx-padding: 20;");
+        VBox levelSelectLayout = new VBox(28, levelOneButton, levelSemiButton, levelTwoButton, backButton);
+        levelSelectLayout.setStyle("-fx-alignment: center; -fx-padding: 350 0 0 0;");
 
         StackPane root = new StackPane();
         root.getChildren().addAll(backgroundView, levelSelectLayout);
@@ -109,7 +128,14 @@ public class MainMenu extends Application {
         controller.getStage().setResizable(false);
     }
 
+    /**
+     * Displays the "How to Play" page.
+     * Provides instructions on how to play the game.
+     *
+     * @param primaryStage the primary stage for this application, onto which the application scene can be set.
+     */
     private void showHowToPlayPage(Stage primaryStage) {
+        
         Image spaceKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/Space.png"));
         Image wKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/W.png"));
         Image sKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/S.png"));
@@ -167,8 +193,13 @@ public class MainMenu extends Application {
         primaryStage.setTitle("How to Play");
         primaryStage.setScene(howToPlayScene);
         primaryStage.show();    
-    }    
+    }   
 
+    /**
+     * Handles the transition to a specified level.
+     *
+     * @param levelName the fully qualified name of the level class to transition to.
+     */
     private void goToLevel(String levelName) {
         try {
             controller.handleLevelChange(levelName);
@@ -177,6 +208,11 @@ public class MainMenu extends Application {
         }
     }
 
+    /**
+     * Stops the background music when the application is stopped.
+     *
+     * @throws Exception if an error occurs during stopping.
+     */
     @Override
     public void stop() throws Exception {
         super.stop();
@@ -184,7 +220,12 @@ public class MainMenu extends Application {
             bgMusic.stop();
         }
     }
-
+    /**
+     * The main method is ignored in correctly deployed JavaFX application.
+     * main() serves only as fallback in case the application can not be launched through deployment artifacts, e.g., in IDEs with limited FX support.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
