@@ -19,6 +19,14 @@ public class LevelSemi extends LevelParent {
     private static final double BASE_SPAWN_PROBABILITY = 0.20;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
+    public int getCurrentWave() {
+        return currentWave;
+    }
+
+    public static int getTotalWaves() {
+        return TOTAL_WAVES;
+    }
+
     private int currentWave;
     private boolean waveInProgress;
     private int enemiesSpawnedThisWave;
@@ -74,14 +82,18 @@ public class LevelSemi extends LevelParent {
     /**
      * Checks if the game is over by evaluating the player's health and wave progress.
      * If the player is destroyed, the game is lost. If all waves are cleared, the next level is loaded.
+     *
+     * @return
      */
     @Override
-    protected void checkIfGameOver() {
+    protected boolean checkIfGameOver() {
         if (userIsDestroyed()) {
             loseGame();
+            return true;
         } else if (currentWave > TOTAL_WAVES && getCurrentNumberOfEnemies() == 0) {
             goToNextLevel(NEXT_LEVEL);
         }
+        return false;
     }
 
     /**

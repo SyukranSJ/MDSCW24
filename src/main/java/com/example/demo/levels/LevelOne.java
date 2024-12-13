@@ -53,15 +53,18 @@ public class LevelOne extends LevelParent {
 	/**
      * Checks if the game is over by evaluating the player's health and kill count.
      * If the player is destroyed, the game is lost. If the player reaches the kill target, the next level is loaded.
+     *
+     * @return
      */
 	@Override
-	protected void checkIfGameOver() {
+	protected boolean checkIfGameOver() {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
 		else if (userHasReachedKillTarget())
 			goToNextLevel(NEXT_LEVEL);
-	}
+        return false;
+    }
 	/**
      * Initializes the friendly units for Level One by adding the player's character to the scene.
      */

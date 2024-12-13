@@ -102,8 +102,10 @@ public abstract class LevelParent {
     /**
      * Abstract method to check if the game is over.
      * This method should be implemented by subclasses to define game over conditions.
+     *
+     * @return
      */
-    protected abstract void checkIfGameOver();
+    protected abstract boolean checkIfGameOver();
 
     /**
      * Abstract method to spawn enemy units.

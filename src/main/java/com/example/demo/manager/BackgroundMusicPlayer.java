@@ -3,12 +3,13 @@ package com.example.demo.manager;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * The BackgroundMusicPlayer class manages the background music for the game.
+ * It follows the Singleton pattern to ensure only one instance of the music player exists.
+ */
 public class BackgroundMusicPlayer {
 
-    /**
-     * The BackgroundMusicPlayer class manages the background music for the game.
-     * It follows the Singleton pattern to ensure only one instance of the music player exists.
-     */
+
     private static BackgroundMusicPlayer instance;
     private MediaPlayer mediaPlayer;
 
@@ -39,6 +40,30 @@ public class BackgroundMusicPlayer {
             instance = new BackgroundMusicPlayer("/com/example/demo/audio/Madeon_Finale.mp3");
         }
         return instance;
+    }
+
+    /**
+     * Sets the volume of the background music.
+     * The volume should be a value between 0.0 (mute) and 1.0 (maximum volume).
+     *
+     * @param volume the desired volume level
+     */
+    public void setVolume(double volume) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume);
+        }
+    }
+
+    /**
+     * Gets the current volume of the background music.
+     *
+     * @return the current volume level between 0.0 and 1.0
+     */
+    public double getVolume() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getVolume();
+        }
+        return 0.0;
     }
 
     /**

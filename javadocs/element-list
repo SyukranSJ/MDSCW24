@@ -1,0 +1,6 @@
+module:com.example.demo
+com.example.demo.characters
+com.example.demo.controller
+com.example.demo.levels
+com.example.demo.manager
+com.example.demo.UI

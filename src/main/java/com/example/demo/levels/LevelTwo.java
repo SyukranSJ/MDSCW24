@@ -44,14 +44,17 @@ public class LevelTwo extends LevelParent {
     /**
      * Checks if the game is over by evaluating the player's health and the boss's health.
      * If the player is destroyed, the game is lost. If the boss is destroyed, the game is won.
+     *
+     * @return
      */
     @Override
-    protected void checkIfGameOver() {
+    protected boolean checkIfGameOver() {
         if (userIsDestroyed()) {
             loseGame();
         } else if (boss.isDestroyed()) {
             winGame();
         }
+        return false;
     }
 
     /**

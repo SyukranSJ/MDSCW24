@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -12,6 +13,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+
+
 
 /**
  * The MainMenu class represents the main menu of the game.
@@ -61,7 +65,34 @@ public class MainMenu extends Application {
         });
         howToPlayButton.setOnAction(e -> showHowToPlayPage(primaryStage)); 
 
-        VBox menuLayout = new VBox(28, startGameButton, levelSelectButton,howToPlayButton, exitButton);
+       
+        
+        // Music Control Label
+        Label musicControlLabel = new Label("Music Control");
+        musicControlLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+        
+        // Volume Slider
+        Slider volumeSlider = new Slider(0, 1, bgMusic.getVolume());
+        volumeSlider.setShowTickLabels(true);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.setMajorTickUnit(0.25);
+        volumeSlider.setBlockIncrement(0.1);
+        
+        // Force smaller size
+        volumeSlider.setPrefWidth(100);
+        volumeSlider.setMinWidth(100);
+        volumeSlider.setMaxWidth(100);
+        
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            bgMusic.setVolume(newValue.doubleValue());
+        });
+        
+        // Combine Label and Slider in a VBox
+        VBox musicControlBox = new VBox(10, musicControlLabel, volumeSlider);
+        musicControlBox.setAlignment(Pos.CENTER);
+        musicControlBox.setStyle("-fx-padding: 10;");
+
+        VBox menuLayout = new VBox(25, startGameButton, levelSelectButton,howToPlayButton,volumeSlider, exitButton);
         menuLayout.setStyle("-fx-alignment: center; -fx-padding: 350 0 0 0;");
 
         // Use StackPane to layer the background and buttons
