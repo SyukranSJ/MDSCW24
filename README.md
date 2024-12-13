@@ -41,7 +41,6 @@ Included full stack trace logging for debugging purposes.
 * Kept the updatePosition, updateActor, and takeDamage methods abstract, enforcing subclasses to define specific behaviors.
 * Centralized the logic for destruction (destroy and setDestroyed) ensures consistent handling of the actor's state.
 
-
 # Boss
 * correctly declaring and structured the shield image to make it visible and fully functional.
 * added Boss healthbar
@@ -165,8 +164,17 @@ shieldState property.
 * Start button
 * Select Level Button
 * Exit Button
+* adjust image resolution and transition.
+* add background music function call.
+
+# Background Music
+* handle background music.
 
 # TO DO
+
+* JavaDoc
+* Junit test
+* Video
 
 # Problems
 * The collision hitboxes do not align with the displayed graphics. (solved by Updated graphics and refined hitboxes to correspond with the actor's visual boundaries.)

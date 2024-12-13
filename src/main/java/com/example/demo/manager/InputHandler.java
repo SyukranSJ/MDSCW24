@@ -3,6 +3,7 @@ package com.example.demo.manager;
 import com.example.demo.characters.ActiveActorDestructible;
 import com.example.demo.characters.UserPlane;
 import com.example.demo.levels.LevelParent;
+import com.example.demo.manager.BackgroundMusicPlayer;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -59,8 +60,10 @@ public class InputHandler {
 
         if (isPaused) {
             levelParent.pauseGame(); // Pause the game loop when paused
+            BackgroundMusicPlayer.getInstance().pause(); 
         } else {
             levelParent.startGame(); // Resume the game loop when unpaused
+            BackgroundMusicPlayer.getInstance().resume();
         }
     }
 }
