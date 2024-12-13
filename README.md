@@ -26,7 +26,8 @@
 * Enhanced Error Handling - Added an alert dialog (handleError) to notify the user when an error occurs, improving user experience.
 Included full stack trace logging for debugging purposes.
 * Simplified Exception Handling by Combining the catch block into a single Exception type for simplicity since all exceptions are handled the same way.
-*Extracted root cause (InvocationTargetException) handling into the handleError method.
+* Extracted root cause (InvocationTargetException) handling into the handleError method.
+* main entry point is now directly launching the MainMenu class.
 
 # ActiveActor
 * Extracting image loading to a separate method makes the constructor easier to understand at a glance.
@@ -159,6 +160,11 @@ shieldState property.
 # Level Semi
 * new level thats similar with levelOne but with waves this time which will spawn more enemy after each waves before can go to boss battle.
 * added total wave on the screen.
+
+# Main Menu
+* Start button
+* Select Level Button
+* Exit Button
 
 # TO DO
 

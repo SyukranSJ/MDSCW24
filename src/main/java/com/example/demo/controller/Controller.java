@@ -33,12 +33,16 @@ public class Controller {
         levelNameProperty.addListener((observable, oldValue, newValue) -> handleLevelChange(newValue));
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void launchGame() {
         stage.show();
         handleLevelChange("com.example.demo.LevelOne"); // Start at LevelOne
     }
 
-    private void handleLevelChange(String levelName) {
+    public void handleLevelChange(String levelName) {
         try {
             goToLevel(levelName);
         } catch (Exception e) {
@@ -63,7 +67,7 @@ public class Controller {
         level.startGame();
     }
 
-    private void showErrorDialog(String message, Exception e) {
+    public void showErrorDialog(String message, Exception e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setContentText(message);
         alert.show();
