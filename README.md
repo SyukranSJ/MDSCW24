@@ -1,4 +1,5 @@
   **GITHUB LINK**
+  
   https://github.com/SyukranSJ/MDSCW24
 
   ### CHANGES ###
@@ -173,12 +174,6 @@ shieldState property.
 
 # Background Music
 * handle background music.
-
-# TO DO
-
-* JavaDoc
-* Junit test
-* Video
 
 # Problems
 * The collision hitboxes do not align with the displayed graphics. (solved by Updated graphics and refined hitboxes to correspond with the actor's visual boundaries.)
