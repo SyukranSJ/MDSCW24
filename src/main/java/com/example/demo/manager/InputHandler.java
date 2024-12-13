@@ -3,7 +3,6 @@ package com.example.demo.manager;
 import com.example.demo.characters.ActiveActorDestructible;
 import com.example.demo.characters.UserPlane;
 import com.example.demo.levels.LevelParent;
-import com.example.demo.manager.BackgroundMusicPlayer;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

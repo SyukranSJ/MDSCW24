@@ -6,13 +6,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ import com.example.demo.characters.UserPlane;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameLoop;
 import com.example.demo.manager.InputHandler;
-//import com.example.demo.manager.BackgroundMusicPlayer;
+import com.example.demo.manager.BackgroundMusicPlayer;
 
 public abstract class LevelParent {
     private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
@@ -133,6 +130,12 @@ public abstract class LevelParent {
     public void goToNextLevel(String levelName) {
         user.destroy();
         levelNameProperty.set(levelName);
+        
+       // Ensure background music continues playing
+       BackgroundMusicPlayer bgMusic = BackgroundMusicPlayer.getInstance();
+       if (bgMusic != null) {
+           bgMusic.play();
+       }
     }
 
     public String getLevelName() {
@@ -230,6 +233,7 @@ public abstract class LevelParent {
     protected void loseGame() {
         gameLoop.stop();
         levelView.showGameOverImage();
+
     }
 
     protected UserPlane getUser() {

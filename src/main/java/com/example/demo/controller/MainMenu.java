@@ -2,13 +2,16 @@ package com.example.demo.controller;
 
 import com.example.demo.manager.BackgroundMusicPlayer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 public class MainMenu extends Application {
 
@@ -34,6 +37,7 @@ public class MainMenu extends Application {
         // Create buttons for the menu
         Button startGameButton = new Button("Start Game");
         Button levelSelectButton = new Button("Level Select");
+        Button howToPlayButton = new Button("How to Play");       
         Button exitButton = new Button("Exit");
 
         // Set up button actions
@@ -43,8 +47,9 @@ public class MainMenu extends Application {
             bgMusic.stop();
             primaryStage.close();
         });
+        howToPlayButton.setOnAction(e -> showHowToPlayPage(primaryStage)); 
 
-        VBox menuLayout = new VBox(10, startGameButton, levelSelectButton, exitButton);
+        VBox menuLayout = new VBox(20, startGameButton, levelSelectButton,howToPlayButton, exitButton);
         menuLayout.setStyle("-fx-alignment: center; -fx-padding: 20;");
 
         // Use StackPane to layer the background and buttons
@@ -103,6 +108,66 @@ public class MainMenu extends Application {
         // Prevent resizing and full-screen capabilities
         controller.getStage().setResizable(false);
     }
+
+    private void showHowToPlayPage(Stage primaryStage) {
+        Image spaceKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/Space.png"));
+        Image wKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/W.png"));
+        Image sKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/S.png"));
+        Image pKeyImage = new Image(getClass().getResourceAsStream("/com/example/demo/images/p.png"));
+    
+        ImageView spaceKeyView = new ImageView(spaceKeyImage);
+        ImageView wKeyView = new ImageView(wKeyImage);
+        ImageView sKeyView = new ImageView(sKeyImage);
+        ImageView pKeyView = new ImageView(pKeyImage);
+    
+        double keySize = 50;
+        spaceKeyView.setFitWidth(keySize);
+        spaceKeyView.setFitHeight(keySize);
+        wKeyView.setFitWidth(keySize);
+        wKeyView.setFitHeight(keySize);
+        sKeyView.setFitWidth(keySize);
+        sKeyView.setFitHeight(keySize);
+        pKeyView.setFitWidth(keySize);
+        pKeyView.setFitHeight(keySize);
+    
+        Text spaceText = new Text("Spacebar - Shoot");
+        Text wText = new Text("W - Move Up");
+        Text sText = new Text("S - Move Down");
+        Text pText = new Text("P - Pause");
+    
+        HBox spaceBox = new HBox(10, spaceKeyView, spaceText);
+        spaceBox.setAlignment(Pos.CENTER);
+    
+        HBox wBox = new HBox(10, wKeyView, wText);
+        wBox.setAlignment(Pos.CENTER);
+    
+        HBox sBox = new HBox(10, sKeyView, sText);
+        sBox.setAlignment(Pos.CENTER);
+    
+        HBox pBox = new HBox(10, pKeyView, pText);
+        pBox.setAlignment(Pos.CENTER);
+    
+        // Create the Back Button
+        Button backButton = new Button("Back to Main Menu");
+        backButton.setOnAction(e -> start(controller.getStage()));  // Go back to Main Menu
+    
+        // Combine everything into the main layout
+        HBox mainLayout = new HBox(20, wBox, sBox);
+        mainLayout.setAlignment(Pos.CENTER);
+        HBox secondLayout = new HBox(20, spaceBox,pBox);
+        secondLayout.setAlignment(Pos.CENTER);
+        VBox mainLayout2 = new VBox(10 ,backButton);
+        mainLayout2.setAlignment(Pos.CENTER);
+
+        VBox combinedLayout = new VBox(20, mainLayout, secondLayout,mainLayout2);
+        combinedLayout.setAlignment(Pos.CENTER);
+    
+        Scene howToPlayScene = new Scene(combinedLayout, 1300, 700);
+    
+        primaryStage.setTitle("How to Play");
+        primaryStage.setScene(howToPlayScene);
+        primaryStage.show();    
+    }    
 
     private void goToLevel(String levelName) {
         try {
